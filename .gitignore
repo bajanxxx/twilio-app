@@ -1,2 +1,3 @@
 phing/config/*
 !phing/config/.gitkeep
+www/vhosts/*
