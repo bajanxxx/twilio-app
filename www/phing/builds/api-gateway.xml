@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="api-gateway" default="apiGateway" basedir="." description="Copy and configure gateway to api">
+    <target name="apiGateway">
+        <property name="home" value="${application.startdir}/vhosts/${component}" />
+        <property file="${application.startdir}/phing/config/api.properties"/>
+        <echo msg="Configuring api-gateway"/>
+        <exec command="php artisan config:publish dws/api-gateway" dir="${home}" />
+        <copy file="${home}/app/config/packages/dws/api-gateway/auth.php.dist" tofile="${home}/app/config/packages/dws/api-gateway/auth.php">
+            <filterchain>
+                <replacetokens begintoken="%" endtoken="%">
+                    <token key="SITE_URI" value="http://${api.host}:${api.port}" />
+                    <token key="AUTHENTICATION_KEY" value="${api.key}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+        <copy file="${home}/app/config/packages/dws/api-gateway/gateway.php.dist" tofile="${home}/app/config/packages/dws/api-gateway/gateway.php">
+            <filterchain>
+                <replacetokens begintoken="%" endtoken="%">
+                    <token key="SITE_URI" value="http://${api.host}:${api.port}/${api.uri}" />
+                    <token key="AUTHENTICATION_KEY" value="${api.key}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+        <echo msg="Cleaning up dist files"/>
+        <delete>
+            <fileset dir="${home}/app/config/packages/dws/api-gateway/">
+                <include name="*.dist" />
+            </fileset>
+        </delete>
+    </target>
+</project>

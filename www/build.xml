@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="dwlsa" default="project" basedir="." description="Set up project">
+    <import file="phing/builds/api-gateway.xml"/>
     <target name="project">
-        <phingcall target="install" />
         <phingcall target="add-admin-user" />
     </target>
     <target name="add-admin-user">
-        <exec command="php artisan add-admin-user ../../phing/data/admin-user.json" dir="vhosts/api" returnProperty="returnProperty" outputProperty="outputProperty" />
-        <echo msg="${returnProperty}" />
-        <echo msg="${outputProperty}" />
+        <exec command="php artisan add-admin-user ${application.startdir}/phing/data/admin-user.json" dir="vhosts/api" returnProperty="returnProperty" outputProperty="outputProperty" />
+        <phingcall target="apiGateway">
+            <property name="component" value="www" />
+            <property name="api.key" value="${outputProperty}" />
+        </phingcall>
+        <phingcall target="apiGateway">
+            <property name="component" value="cms" />
+            <property name="api.key" value="${outputProperty}" />
+        </phingcall>        
     </target>
     <target name="install">
         <property file="phing/config/app.properties" />
