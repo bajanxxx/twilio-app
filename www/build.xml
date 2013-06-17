@@ -2,9 +2,10 @@
 <project name="dwlsa" default="project" basedir="." description="Set up project">
     <target name="project">
         <phingcall target="install" />
+        <phingcall target="add-admin-user" />
     </target>
-    <target name="add-admin">
-        <exec command="php artisan add-admin-user ../phing/data/admin.json" dir="api" returnProperty="returnProperty" outputProperty="outputProperty" />
+    <target name="add-admin-user">
+        <exec command="php artisan add-admin-user ../../phing/data/admin-user.json" dir="vhosts/api" returnProperty="returnProperty" outputProperty="outputProperty" />
         <echo msg="${returnProperty}" />
         <echo msg="${outputProperty}" />
     </target>
