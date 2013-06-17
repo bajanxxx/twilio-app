@@ -31,7 +31,6 @@
     "recipe[php::module_memcached]",
     "recipe[phing]",
     "recipe[phing::VersionControl_Git]",
-    "recipe[slender::hostname-app]",
     "recipe[slender::hostname]"
   ]
 }
