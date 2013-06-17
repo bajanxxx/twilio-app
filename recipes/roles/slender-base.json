@@ -29,6 +29,9 @@
     "recipe[php::module_xml]",
     "recipe[php::module_xdebug]",
     "recipe[php::module_memcached]",
-    "recipe[phing]"
+    "recipe[phing]",
+    "recipe[phing::VersionControl_Git]",
+    "recipe[slender::hostname-app]",
+    "recipe[slender::hostname]"
   ]
 }
