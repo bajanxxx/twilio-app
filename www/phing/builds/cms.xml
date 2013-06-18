@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="cms" default="cms" basedir="." description="Set up CMS">
+    <import file="${application.startdir}/phing/builds/api-gateway.xml"/>
+    <import file="${application.startdir}/phing/builds/enable-sites.xml"/>
+    <target name="cms">
+        <phingcall target="install">
+            <property name="component" value="cms"/>
+        </phingcall>
+        <phingcall target="apiGateway">
+            <property name="component" value="cms" />
+        </phingcall>
+        <phingcall target="enable-site">
+            <property name="component" value="cms" />
+        </phingcall>
+    </target>
+</project>
