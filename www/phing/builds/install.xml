@@ -1,32 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="install" default="install" basedir="." description="Clone repo and run composer">
-    <target name="install">
+<project name="install" default="install-component" basedir="." description="Clone repo and run composer">
+    <target name="install-component">
+        <phingcall target="git-clone">
+            <property name="component" value="${component}"/>
+        </phingcall>
+        <phingcall target="composer">
+            <property name="component" value="${component}"/>
+        </phingcall>
+    </target>
+    <target name="git-clone">
         <property file="phing/config/app.properties" />
-        <echo msg="Cloning API Repo" />
-        <gitclone repository="${api.repo}" targetPath="${api.dir}" />
-        <echo msg="Cloning CMS Repo" />
-        <gitclone repository="${cms.repo}" targetPath="${cms.dir}" />
-        <echo msg="Cloning Frontend Repo" />
-        <gitclone repository="${front.repo}" targetPath="${front.dir}" />
-        <phingcall target="composer">
-            <property name="component" value="API" />
-            <property name="location" value="${api.dir}" />
-        </phingcall>
-        <phingcall target="composer">
-            <property name="component" value="CMS" />
-            <property name="location" value="${cms.dir}" />
-        </phingcall>
-        <phingcall target="composer">
-            <property name="component" value="front end" />
-            <property name="location" value="${front.dir}" />
-        </phingcall>
-        <chmod file="${api.dir}/app/storage" mode="0777" />
-        <chmod file="${cms.dir}/app/storage" mode="0777" />
-        <chmod file="${front.dir}/app/storage" mode="0777" />
+        <echo msg="Cloning ${${component}.repo}" />
+        <gitclone repository="${${component}.repo}" targetPath="${${component}.dir}" />
+        <chmod file="${${component}.dir}/app/storage" mode="0777" />
     </target>
     <target name="composer">
+        <property file="phing/config/app.properties" />
         <echo msg="Installing ${component} via Composer" />
-        <exec passthru="true" checkreturn="true" command="composer -v install" dir="${location}" />
+        <exec passthru="true" checkreturn="true" command="composer -v install" dir="${${component}.dir}" />
         <echo msg="Install finished!" />
     </target>
 </project>
