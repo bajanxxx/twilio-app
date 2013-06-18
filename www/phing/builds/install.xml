@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="install" default="install-component" basedir="." description="Clone repo and run composer">
-    <target name="install-component">
+<project name="install" default="install" basedir="." description="Clone repo and run composer">
+    <target name="install">
         <phingcall target="git-clone">
             <property name="component" value="${component}"/>
         </phingcall>
