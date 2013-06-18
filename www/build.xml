@@ -1,47 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="dwlsa" default="project" basedir="." description="Set up project">
     <import file="phing/builds/api-gateway.xml"/>
+    <import file="phing/builds/enable-sites.xml"/>
     <target name="project">
         <phingcall target="add-admin-user" />
+        <phingcall target="enable-sites" />
+        <phingcall target="modify-hosts-file" />
+        <phingcall target="completed" />
     </target>
-    <target name="add-admin-user">
-        <exec command="php artisan add-admin-user ${application.startdir}/phing/data/admin-user.json" dir="vhosts/api" returnProperty="returnProperty" outputProperty="outputProperty" />
-        <phingcall target="apiGateway">
-            <property name="component" value="www" />
-            <property name="api.key" value="${outputProperty}" />
-        </phingcall>
-        <phingcall target="apiGateway">
-            <property name="component" value="cms" />
-            <property name="api.key" value="${outputProperty}" />
-        </phingcall>        
-    </target>
-    <target name="install">
-        <property file="phing/config/app.properties" />
-        <echo msg="Cloning API Repo" />
-        <gitclone repository="${api.repo}" targetPath="${api.dir}" />
-        <echo msg="Cloning CMS Repo" />
-        <gitclone repository="${cms.repo}" targetPath="${cms.dir}" />
-        <echo msg="Cloning Frontend Repo" />
-        <gitclone repository="${front.repo}" targetPath="${front.dir}" />
-        <phingcall target="composer">
-            <property name="component" value="API" />
-            <property name="location" value="${api.dir}" />
-        </phingcall>
-        <phingcall target="composer">
-            <property name="component" value="CMS" />
-            <property name="location" value="${cms.dir}" />
-        </phingcall>
-        <phingcall target="composer">
-            <property name="component" value="front end" />
-            <property name="location" value="${front.dir}" />
-        </phingcall>
-        <chmod file="${api.dir}/app/storage" mode="0777" />
-        <chmod file="${cms.dir}/app/storage" mode="0777" />
-        <chmod file="${front.dir}/app/storage" mode="0777" />
-    </target>
-    <target name="composer">
-        <echo msg="Installing ${component} via Composer" />
-        <exec passthru="true" checkreturn="true" command="composer -v install" dir="${location}" />
-        <echo msg="Install finished!" />
+    <target name="completed">
+        <property file="phing/config/hostname.properties" />
+        <exec command="/sbin/ifconfig eth1 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'" outputProperty="ip" />
+        <echo>Job complete!
+Don't forget to add the following to the hosts file on the host machine if needed:
+    ${ip} ${api.hostname}  
+    ${ip} ${cms.hostname}  
+    ${ip} ${www.hostname}  
+        </echo>
     </target>
 </project>

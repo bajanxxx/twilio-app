@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="api-gateway" default="apiGateway" basedir="." description="Copy and configure gateway to api">
+<project name="api-gateway" default="add-admin-user" basedir="." description="Copy and configure gateway to api">
+    <target name="add-admin-user">
+        <exec command="php artisan add-admin-user ${application.startdir}/phing/data/admin-user.json" dir="${application.startdir}/vhosts/api" returnProperty="returnProperty" outputProperty="outputProperty" />
+        <phingcall target="apiGateway">
+            <property name="component" value="www" />
+            <property name="api.key" value="${outputProperty}" />
+        </phingcall>
+        <phingcall target="apiGateway">
+            <property name="component" value="cms" />
+            <property name="api.key" value="${outputProperty}" />
+        </phingcall>        
+    </target>
     <target name="apiGateway">
         <property name="home" value="${application.startdir}/vhosts/${component}" />
-        <property file="${application.startdir}/phing/config/api.properties"/>
         <echo msg="Configuring api-gateway"/>
         <exec command="php artisan config:publish dws/api-gateway" dir="${home}" />
         <copy file="${home}/app/config/packages/dws/api-gateway/auth.php.dist" tofile="${home}/app/config/packages/dws/api-gateway/auth.php">

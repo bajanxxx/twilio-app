@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="enable-sites" default="enable-sites" basedir="." description="Write sites-available/* and /etc/hosts restart apache">
+    <target name="enable-sites">
+        <phingcall target="do-enable-sites">
+            <property name="component" value="api" />
+        </phingcall>
+        <phingcall target="do-enable-sites">
+            <property name="component" value="cms" />
+        </phingcall>
+        <phingcall target="do-enable-sites">
+            <property name="component" value="www" />
+        </phingcall>
+        <phingcall target="modify-hosts-file" />
+        <exec passthru="true" checkreturn="true" command="a2dissite default" />
+        <exec passthru="true" checkreturn="true" command="service apache2 restart" />
+    </target>
+    <target name="modify-hosts-file">
+        <exec command="hostname" outputProperty="hostname" />
+        <property file="${application.startdir}/phing/config/hostname.properties" />
+        <copy file="${application.startdir}/phing/templates/hosts" tofile="/etc/hosts">
+            <filterchain>
+                <replacetokens begintoken="%" endtoken="%">
+                    <token key="HOST_NAME" value="${hostname}" />
+                    <token key="API_NAME" value="${api.hostname}" />
+                    <token key="CMS_NAME" value="${cms.hostname}" />
+                    <token key="WWW_NAME" value="${www.hostname}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+    </target>
+    <target name="do-enable-sites">
+        <property file="${application.startdir}/phing/config/hostname.properties" />
+        <copy file="${application.startdir}/phing/templates/sites-available" tofile="/etc/apache2/sites-available/${component}">
+            <filterchain>
+                <replacetokens begintoken="%" endtoken="%">
+                    <token key="SERVER_NAME" value="${${component}.hostname}" />
+                    <token key="COMPONENT" value="${component}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+        <exec passthru="true" checkreturn="true" command="a2ensite ${component}" /> 
+    </target>
+</project>
