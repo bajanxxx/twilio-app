@@ -1,41 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="api-gateway" default="add-admin-user" basedir="." description="Copy and configure gateway to api">
     <target name="add-admin-user">
-        <exec command="php artisan add-admin-user ${application.startdir}/phing/data/admin-user.json" dir="${application.startdir}/vhosts/api" returnProperty="returnProperty" outputProperty="outputProperty" />
+        <exec command="php artisan add-admin-user ${application.startdir}/phing/data/admin-user.json" dir="${application.startdir}/vhosts/api" returnProperty="returnProperty" outputProperty="api.key" />
         <phingcall target="apiGateway">
             <property name="component" value="www" />
-            <property name="api.key" value="${outputProperty}" />
         </phingcall>
         <phingcall target="apiGateway">
             <property name="component" value="cms" />
-            <property name="api.key" value="${outputProperty}" />
         </phingcall>        
     </target>
     <target name="apiGateway">
+        
         <property name="home" value="${application.startdir}/vhosts/${component}" />
+        <property file="${application.startdir}/phing/config/hostname.properties" />
+        <property file="${application.startdir}/phing/config/api.properties" />
+
         <echo msg="Configuring api-gateway"/>
         <exec command="php artisan config:publish dws/api-gateway" dir="${home}" />
-        <copy file="${home}/app/config/packages/dws/api-gateway/auth.php" tofile="${home}/app/config/packages/dws/api-gateway/auth.php">
+        <move file="${home}/app/config/packages/dws/api-gateway/gateway.php" tofile="${home}/app/config/packages/dws/api-gateway/gateway.php.dist" overwrite="true">
             <filterchain>
                 <replacetokens begintoken="%" endtoken="%">
-                    <token key="SITE_URI" value="http://${api.host}:${api.port}" />
+                    <token key="SITE_URI" value="http://${api.hostname}:${api.port}" />
                     <token key="AUTHENTICATION_KEY" value="${api.key}" />
                 </replacetokens>
             </filterchain>
-        </copy>
-        <copy file="${home}/app/config/packages/dws/api-gateway/gateway.php" tofile="${home}/app/config/packages/dws/api-gateway/gateway.php">
+        </move>
+        <move file="${home}/app/config/packages/dws/api-gateway/auth.php" tofile="${home}/app/config/packages/dws/api-gateway/auth.php.dist" overwrite="true">
             <filterchain>
                 <replacetokens begintoken="%" endtoken="%">
-                    <token key="SITE_URI" value="http://${api.host}:${api.port}/${api.uri}" />
+                    <token key="SITE_URI" value="http://${api.hostname}:${api.port}" />
                     <token key="AUTHENTICATION_KEY" value="${api.key}" />
                 </replacetokens>
             </filterchain>
-        </copy>
-        <echo msg="Cleaning up dist files"/>
-        <delete>
-            <fileset dir="${home}/app/config/packages/dws/api-gateway/">
-                <include name="*.dist" />
-            </fileset>
-        </delete>
+        </move>
+        <move file="${home}/app/config/packages/dws/api-gateway/gateway.php.dist" tofile="${home}/app/config/packages/dws/api-gateway/gateway.php" overwrite="true" />
+        <move file="${home}/app/config/packages/dws/api-gateway/auth.php.dist" tofile="${home}/app/config/packages/dws/api-gateway/auth.php" overwrite="true" />
     </target>
 </project>
