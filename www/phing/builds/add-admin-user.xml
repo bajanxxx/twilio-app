@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="add-admin-user" default="add-admin-user" basedir="." description="Copy and configure gateway to api">
+    <target name="add-admin-user">
+        <exec command="php artisan add-admin-user ${application.startdir}/phing/data/admin-user.json" dir="${application.startdir}/vhosts/api" returnProperty="returnProperty" outputProperty="api.key" />
+        <append destFile="${application.startdir}/phing/config/api.properties" text="${line.separator}api.key=${api.key}" />       
+    </target>
+</project>
