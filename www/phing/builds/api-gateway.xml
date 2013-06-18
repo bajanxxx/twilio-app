@@ -15,7 +15,7 @@
         <property name="home" value="${application.startdir}/vhosts/${component}" />
         <echo msg="Configuring api-gateway"/>
         <exec command="php artisan config:publish dws/api-gateway" dir="${home}" />
-        <copy file="${home}/app/config/packages/dws/api-gateway/auth.php.dist" tofile="${home}/app/config/packages/dws/api-gateway/auth.php">
+        <copy file="${home}/app/config/packages/dws/api-gateway/auth.php" tofile="${home}/app/config/packages/dws/api-gateway/auth.php">
             <filterchain>
                 <replacetokens begintoken="%" endtoken="%">
                     <token key="SITE_URI" value="http://${api.host}:${api.port}" />
@@ -23,7 +23,7 @@
                 </replacetokens>
             </filterchain>
         </copy>
-        <copy file="${home}/app/config/packages/dws/api-gateway/gateway.php.dist" tofile="${home}/app/config/packages/dws/api-gateway/gateway.php">
+        <copy file="${home}/app/config/packages/dws/api-gateway/gateway.php" tofile="${home}/app/config/packages/dws/api-gateway/gateway.php">
             <filterchain>
                 <replacetokens begintoken="%" endtoken="%">
                     <token key="SITE_URI" value="http://${api.host}:${api.port}/${api.uri}" />
