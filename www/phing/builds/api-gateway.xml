@@ -6,10 +6,21 @@
         <property file="${application.startdir}/phing/config/api.properties" />
         <echo msg="Configuring api-gateway"/>
         <exec command="php artisan config:publish dws/api-gateway" dir="${home}" />
+
+        <if>
+            <equals arg1="${component}" arg2="www" />
+                <then>
+                    <property name="gateway.uri" value="http://${api.hostname}:${api.port}/${api.uri}" />
+                </then>
+            <else>
+                <property name="gateway.uri" value="http://${api.hostname}:${api.port}" />
+            </else>
+        </if>
+
         <move file="${home}/app/config/packages/dws/api-gateway/gateway.php" tofile="${home}/app/config/packages/dws/api-gateway/gateway.php.dist" overwrite="true">
             <filterchain>
                 <replacetokens begintoken="%" endtoken="%">
-                    <token key="SITE_URI" value="http://${api.hostname}:${api.port}" />
+                    <token key="SITE_URI" value="${gateway.uri}" />
                     <token key="AUTHENTICATION_KEY" value="${api.key}" />
                 </replacetokens>
             </filterchain>
