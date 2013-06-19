@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="api" default="api" basedir="." description="Set up API">
+    <target name="api">
+        <phingcall target="install">
+            <property name="component" value="api"/>
+        </phingcall>
+        <phingcall target="enable-site">
+            <property name="component" value="api" />
+        </phingcall>
+    </target>
+</project>

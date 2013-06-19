@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="dwlsa" default="project" basedir="." description="Set up project">
+    <import file="phing/builds/get-properties.xml"/>
+    <import file="phing/builds/install.xml"/>
     <import file="phing/builds/api-gateway.xml"/>
     <import file="phing/builds/enable-sites.xml"/>
+    <import file="phing/builds/add-admin-user.xml"/>
+    <import file="phing/builds/api.xml"/>
+    <import file="phing/builds/cms.xml"/>
+    <import file="phing/builds/www.xml"/>
     <target name="project">
+        <phingcall target="get-properties" />
+        <phingcall target="api" />
         <phingcall target="add-admin-user" />
-        <phingcall target="enable-sites" />
+        <phingcall target="cms" />
+        <phingcall target="www" />
         <phingcall target="modify-hosts-file" />
-        <phingcall target="completed" />
+        <exec passthru="true" checkreturn="true" command="a2dissite default" />
+        <exec passthru="true" checkreturn="true" command="service apache2 restart" />
     </target>
     <target name="completed">
         <property file="phing/config/hostname.properties" />
@@ -17,5 +27,19 @@ Don't forget to add the following to the hosts file on the host machine if neede
     ${ip} ${cms.hostname}  
     ${ip} ${www.hostname}  
         </echo>
+    </target>
+    <target name="modify-hosts-file">
+        <exec command="hostname" outputProperty="hostname" />
+        <property file="phing/config/hostname.properties" />
+        <copy file="phing/templates/hosts" tofile="/etc/hosts">
+            <filterchain>
+                <replacetokens begintoken="%" endtoken="%">
+                    <token key="HOST_NAME" value="${hostname}" />
+                    <token key="API_NAME" value="${api.hostname}" />
+                    <token key="CMS_NAME" value="${cms.hostname}" />
+                    <token key="WWW_NAME" value="${www.hostname}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
     </target>
 </project>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="get-properties" default="project" basedir="." description="Set up project">
+    <target name="get-properties">
+        <input propertyname="env" promptChar=":">What's the environment of this machine?</input>
+        <input propertyname="basename" promptChar=":">What's the basename of the site (e.g. example.com)</input>
+        <input propertyname="baseuri" promptChar=":">What's the base uri on the api? (e.g. mysite maps => http::/api.url.com/mysite)</input>
+        <input propertyname="git.api" promptChar="git@github.com:">What's the github uri for the API? </input>
+        <input propertyname="git.cms" promptChar="git@github.com:">What's the github uri for the CMS? </input>
+        <input propertyname="git.www" promptChar="git@github.com:">What's the github uri for the Front End? </input>
+        <phingcall target="write-properties">
+            <property name="env" value="${env}" />
+            <property name="basename" value="${basename}" />
+            <property name="baseuri" value="${baseuri}" />
+            <property name="git.api" value="${git.api}" />
+            <property name="git.cms" value="${git.cms}" />
+            <property name="git.www" value="${git.www}" />
+        </phingcall>
+    </target>
+    <target name="write-properties">
+        <copy file="${application.startdir}/phing/templates/api.properties" tofile="${application.startdir}/phing/config/api.properties" overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="%" endtoken="%">
+                    <token key="BASE_URI" value="${baseuri}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+        <copy file="${application.startdir}/phing/templates/app.properties" tofile="${application.startdir}/phing/config/app.properties" overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="%" endtoken="%">
+                    <token key="API_REPO" value="git@github.com:${git.api}" />
+                    <token key="CMS_REPO" value="git@github.com:${git.cms}" />
+                    <token key="WWW_REPO" value="git@github.com:${git.www}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+        <copy file="${application.startdir}/phing/templates/hostname.properties" tofile="${application.startdir}/phing/config/hostname.properties" overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="%" endtoken="%">
+                    <token key="API_HOSTNAME" value="${env}.api.${basename}" />
+                    <token key="CMS_HOSTNAME" value="${env}.cms.${basename}" />
+                    <token key="WWW_HOSTNAME" value="${env}.www.${basename}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+    </target>
+</project>

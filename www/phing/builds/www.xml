@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="www" default="www" basedir="." description="Set up Front End">
+    <target name="www">
+        <phingcall target="install">
+            <property name="component" value="www"/>
+        </phingcall>
+        <phingcall target="apiGateway">
+            <property name="component" value="www" />
+        </phingcall>
+        <phingcall target="enable-site">
+            <property name="component" value="www" />
+        </phingcall>
+    </target>
+</project>
