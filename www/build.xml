@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="dwlsa" default="project" basedir="." description="Set up project">
+<project name="slender-project" default="project" basedir="." description="Set up project">
     <import file="phing/builds/get-properties.xml"/>
     <import file="phing/builds/install.xml"/>
     <import file="phing/builds/api-gateway.xml"/>
