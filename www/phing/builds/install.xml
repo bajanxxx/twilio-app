@@ -1,29 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="install" default="install" basedir="." description="Clone repo and run composer">
     <target name="install">
-        <phingcall target="git-clone">
-            <property name="component" value="${component}"/>
-        </phingcall>
-        <phingcall target="composer">
-            <property name="component" value="${component}"/>
-        </phingcall>
-        <phingcall target="set-permissions">
-            <property name="component" value="${component}"/>
-        </phingcall>
-    </target>
-    <target name="git-clone">
         <property file="phing/config/app.properties" />
-        <echo msg="Cloning ${${component}.repo}" />
-        <gitclone repository="${${component}.repo}" targetPath="${${component}.dir}" />
-    </target>
-    <target name="composer">
-        <property file="phing/config/app.properties" />
-        <echo msg="Installing ${component} via Composer" />
-        <exec passthru="true" checkreturn="true" command="composer -v install" dir="${${component}.dir}" />
-        <echo msg="Install finished!" />
-    </target>
-    <target = "set-permissions">
-        <property file="phing/config/app.properties" />
-        <exec command="chmod -R 777 app/storage" dir="${${component}.dir}" />
+        <mkdir dir="${application.startdir}/vhosts/${component}" />
+        <gitclone repository="${${component}.repo}" targetPath="${application.startdir}/vhosts/${${component}.dir}" />
+        <exec passthru="true" checkreturn="true" command="composer -v install" dir="${application.startdir}/vhosts/${${component}.dir}" />
+        <exec command="chmod -R 777 app/storage" dir="${application.startdir}/vhosts/${${component}.dir}" />
     </target>
 </project>
