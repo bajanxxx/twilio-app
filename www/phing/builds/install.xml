@@ -7,17 +7,23 @@
         <phingcall target="composer">
             <property name="component" value="${component}"/>
         </phingcall>
+        <phingcall target="set-permissions">
+            <property name="component" value="${component}"/>
+        </phingcall>
     </target>
     <target name="git-clone">
         <property file="phing/config/app.properties" />
         <echo msg="Cloning ${${component}.repo}" />
         <gitclone repository="${${component}.repo}" targetPath="${${component}.dir}" />
-        <exec command="chmod -R 777 app/storage" dir="${${component}.dir}" />
     </target>
     <target name="composer">
         <property file="phing/config/app.properties" />
         <echo msg="Installing ${component} via Composer" />
         <exec passthru="true" checkreturn="true" command="composer -v install" dir="${${component}.dir}" />
         <echo msg="Install finished!" />
+    </target>
+    <target = "set-permissions">
+        <property file="phing/config/app.properties" />
+        <exec command="chmod -R 777 app/storage" dir="${${component}.dir}" />
     </target>
 </project>
