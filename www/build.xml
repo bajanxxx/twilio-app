@@ -17,16 +17,7 @@
         <phingcall target="modify-hosts-file" />
         <exec passthru="true" checkreturn="true" command="a2dissite default" />
         <exec passthru="true" checkreturn="true" command="service apache2 restart" />
-    </target>
-    <target name="completed">
-        <property file="phing/config/hostname.properties" />
-        <exec command="/sbin/ifconfig eth1 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'" outputProperty="ip" />
-        <echo>Job complete!
-Don't forget to add the following to the hosts file on the host machine if needed:
-    ${ip} ${api.hostname}  
-    ${ip} ${cms.hostname}  
-    ${ip} ${www.hostname}  
-        </echo>
+        <phingcall target="completed" />
     </target>
     <target name="modify-hosts-file">
         <exec command="hostname" outputProperty="hostname" />
@@ -41,5 +32,15 @@ Don't forget to add the following to the hosts file on the host machine if neede
                 </replacetokens>
             </filterchain>
         </copy>
+    </target>
+    <target name="completed">
+        <property file="phing/config/hostname.properties" />
+        <exec command="/sbin/ifconfig eth1 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'" outputProperty="ip" />
+        <echo>Job complete!
+Don't forget to add the following to the hosts file on the host machine if needed:
+    ${ip} ${api.hostname}  
+    ${ip} ${cms.hostname}  
+    ${ip} ${www.hostname}  
+        </echo>
     </target>
 </project>
