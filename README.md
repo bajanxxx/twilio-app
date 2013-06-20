@@ -20,8 +20,8 @@ Currently there are more steps than I would like do to the file structure
 * ssh into the machine
 * $ sudo ssh-keygen -t rsa -C "your_email@example.com"
 * $ cat /root/.ssh/id_rsa.pub (and add it to you ssh keys on github)
-* cd /var
-* rm -rf www
+* $ cd /var
+* $ rm -rf www
 * $ sudo git clone https://github.com/dwsla/slender-app.git
 * $ sudo mv slender-app/* .
 * $ sudo rm -rf slender-app/ Vagrantfile  recipes/ .gitignore .vagrant
