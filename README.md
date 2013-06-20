@@ -33,8 +33,13 @@ NOTE: you may see an error message complaining some directories don't exists, bu
 Example properties
 ==============
 What's the environment of this machine?: qa
+
 What's the basename of the site (e.g. example.com): dws.la
+
 What's the base uri on the api? (e.g. mysite maps => http::/api.url.com/mysite): dwsla
+
 What's the github uri for the API? git@github.com: dwsla/dws.la-api.git
+
 What's the github uri for the CMS? git@github.com: dwsla/dws.la-cms.git
+
 What's the github uri for the Front End? git@github.com: dwsla/dws.la.git
