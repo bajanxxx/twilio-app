@@ -9,6 +9,7 @@
     <import file="phing/builds/cms.xml"/>
     <import file="phing/builds/www.xml"/>
     <target name="project">
+        <mkdir dir="vhosts" />
         <phingcall target="get-properties" />
         <phingcall target="api" />
         <phingcall target="add-admin-user" />
