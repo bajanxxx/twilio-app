@@ -36,9 +36,9 @@
         <copy file="${application.startdir}/phing/templates/hostname.properties" tofile="${application.startdir}/phing/config/hostname.properties" overwrite="true">
             <filterchain>
                 <replacetokens begintoken="%" endtoken="%">
-                    <token key="API_HOSTNAME" value="${env}.api.${basename}" />
-                    <token key="CMS_HOSTNAME" value="${env}.cms.${basename}" />
-                    <token key="WWW_HOSTNAME" value="${env}.www.${basename}" />
+                    <token key="API_HOSTNAME" value="api.${env}.${basename}" />
+                    <token key="CMS_HOSTNAME" value="cms.${env}.${basename}" />
+                    <token key="WWW_HOSTNAME" value="www.${env}.${basename}" />
                 </replacetokens>
             </filterchain>
         </copy>
