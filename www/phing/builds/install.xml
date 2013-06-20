@@ -12,7 +12,7 @@
         <property file="phing/config/app.properties" />
         <echo msg="Cloning ${${component}.repo}" />
         <gitclone repository="${${component}.repo}" targetPath="${${component}.dir}" />
-        <chmod file="${${component}.dir}/app/storage" mode="0777" />
+        <exec command="chmod -R 777 app/storage" dir="${${component}.dir}" />
     </target>
     <target name="composer">
         <property file="phing/config/app.properties" />
