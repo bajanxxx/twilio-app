@@ -4,7 +4,7 @@
         <property file="phing/config/app.properties" />
         <mkdir dir="${application.startdir}/vhosts/${component}" />
         <gitclone repository="${${component}.repo}" targetPath="${application.startdir}/vhosts/${${component}.dir}" />
-        <exec passthru="true" checkreturn="true" command="composer -v install" dir="${application.startdir}/vhosts/${${component}.dir}" />
+        <exec passthru="true" checkreturn="true" command="composer -v --no-dev install" dir="${application.startdir}/vhosts/${${component}.dir}" />
         <exec command="chmod -R 777 app/storage" dir="${application.startdir}/vhosts/${${component}.dir}" />
     </target>
 </project>
