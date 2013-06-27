@@ -4,6 +4,7 @@
         <input propertyname="env" promptChar=":">What's the environment of this machine?</input>
         <input propertyname="basename" promptChar=":">What's the basename of the site (e.g. example.com)</input>
         <input propertyname="baseuri" promptChar=":">What's the base uri on the api? (e.g. mysite maps => http::/api.url.com/mysite)</input>
+        <input propertyname="auth.endpoint" promptChar=":">What endpoint is used to authenticate front end users? (e.g. users maps => http::/api.url.com/users)</input>
         <input propertyname="git.api" promptChar="git@github.com:">What's the github uri for the API? </input>
         <input propertyname="git.cms" promptChar="git@github.com:">What's the github uri for the CMS? </input>
         <input propertyname="git.www" promptChar="git@github.com:">What's the github uri for the Front End? </input>
@@ -11,6 +12,7 @@
             <property name="env" value="${env}" />
             <property name="basename" value="${basename}" />
             <property name="baseuri" value="${baseuri}" />
+            <property name="auth.endpoint" value="${auth.endpoint}" />
             <property name="git.api" value="${git.api}" />
             <property name="git.cms" value="${git.cms}" />
             <property name="git.www" value="${git.www}" />
@@ -21,6 +23,7 @@
             <filterchain>
                 <replacetokens begintoken="%" endtoken="%">
                     <token key="BASE_URI" value="${baseuri}" />
+                    <token key="AUTH_ENDPOINT" value="${auth.endpoint}" />
                 </replacetokens>
             </filterchain>
         </copy>
