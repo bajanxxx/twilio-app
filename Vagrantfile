@@ -45,7 +45,6 @@ Vagrant::Config.run do |config|
     chef.roles_path = "recipes/roles"
     chef.add_role "slender-base"
     chef.add_role "slender-api"
-    chef.add_role "queue"
     # chef.data_bags_path = "../my-recipes/data_bags"
   #   # You may also specify custom JSON attributes:
   #   chef.json = { :mysql_password => "foo" }
