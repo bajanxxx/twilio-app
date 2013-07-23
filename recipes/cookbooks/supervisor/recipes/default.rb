@@ -26,13 +26,10 @@ if platform_family?("smartos")
   end
 end
 
-python_pip "Distribute" do
-  action :install
-end
-
-python_pip "supervisor" do
-  action :upgrade
-  version node['supervisor']['version'] if node['supervisor']['version']
+bash "install_supervisor" do
+  code <<-EOH
+    sudo easy_install supervisor
+  EOH
 end
 
 directory node['supervisor']['dir'] do
