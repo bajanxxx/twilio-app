@@ -5,11 +5,13 @@
     <import file="phing/builds/api-gateway.xml"/>
     <import file="phing/builds/enable-sites.xml"/>
     <import file="phing/builds/add-admin-user.xml"/>
+    <import file="phing/builds/laravel.xml"/>
     <import file="phing/builds/api.xml"/>
     <import file="phing/builds/cms.xml"/>
     <import file="phing/builds/www.xml"/>
     <target name="project">
         <phingcall target="get-properties" />
+        <phingcall target="laravel" />
         <phingcall target="api" />
         <phingcall target="add-admin-user" />
         <phingcall target="cms" />

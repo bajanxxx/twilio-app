@@ -3,7 +3,8 @@
     <target name="install">
         <property file="phing/config/app.properties" />
         <gitclone repository="${${component}.repo}" targetPath="${application.startdir}/${${component}.dir}" />
-        <exec passthru="true" checkreturn="true" command="composer -v --no-dev install" dir="${application.startdir}/${${component}.dir}" />
+        <exec passthru="true" checkreturn="true" command="cp -r /tmp/foo/vendor ." dir="${application.startdir}/${${component}.dir}" />        
+        <exec passthru="true" checkreturn="true" command="composer -v --no-dev update" dir="${application.startdir}/${${component}.dir}" />
         <exec command="chmod -R 777 app/storage" dir="${application.startdir}/${${component}.dir}" />
     </target>
 </project>

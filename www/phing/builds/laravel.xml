@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="laravel" default="laravel" basedir="." description="Clone repo and run composer">
+    <target name="laravel">
+        <delete dir="/tmp/foo" includeemptydirs="true" verbose="true" failonerror="false" />
+        <mkdir dir="/tmp/foo" />
+        <gitclone repository="https://github.com/laravel/framework.git" targetPath="/tmp/foo" />
+        <exec passthru="true" checkreturn="true" command="composer -v --no-dev install" dir="/tmp/foo" />
+    </target>
+</project>
