@@ -1,4 +1,5 @@
 .DS_Store
+.vagrant
 www/phing/config/*
 !www/phing/config/.gitkeep
 www/vhosts/*
