@@ -18,8 +18,8 @@ Real Machine
 Currently there are more steps than I would like do to the file structure
 
 * ssh into the machine
-* $ sudo ssh-keygen -t rsa -C "your_email@example.com"
-* $ cat /root/.ssh/id_rsa.pub (and add it to you ssh keys on github)
+* $ sudo ssh-keygen -t rsa -C "your_email@example.com" (do not use a passphrase)
+* $ sudo cat /root/.ssh/id_rsa.pub (and add it to you ssh keys on github)
 * $ cd /var
 * $ rm -rf www
 * $ sudo git clone https://github.com/dwsla/slender-app.git
@@ -32,11 +32,13 @@ NOTE: you may see an error message complaining some directories don't exists, bu
 
 Example properties
 ==============
-What's the environment of this machine?: qa
+What's the environment of this machine?: local
 
 What's the basename of the site (e.g. example.com): dws.la
 
 What's the base uri on the api? (e.g. mysite maps => http::/api.url.com/mysite): dwsla
+
+What's endpoint does frontend users use to authenticate?: members
 
 What's the github uri for the API? git@github.com: dwsla/dws.la-api.git
 
