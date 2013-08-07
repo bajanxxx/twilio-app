@@ -11,6 +11,8 @@ Vagrant
 * $ cat /root/.ssh/id_rsa.pub (and add it to you ssh keys on github)
 * $ cd /var/www/
 * $ sudo phing
+* ON MAC: currently you will need to chmod -R 777 app/storage/sessions from the host for cms and www each time a session expires or you will see a permission denied error
+* ON MAC: currently you will need to rm -rf app/storage/views/* from the host for cms and www when you modify a view file or you will see a permission denied error
 
 Real Machine
 =======
