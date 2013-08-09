@@ -17,6 +17,8 @@ Vagrant
 Real Machine
 =======
 
+<a href="https://github.com/startupdevs/dws.la-app/wiki/setup-server">Set up server</a>
+
 Currently there are more steps than I would like do to the file structure
 
 * ssh into the machine
