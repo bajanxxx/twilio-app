@@ -4,3 +4,4 @@ www/phing/config/*
 !www/phing/config/.gitkeep
 www/vhosts/*
 index.html
+/.project
